@@ -99,7 +99,7 @@ public enum GPTTokenizer {
         let byteEncoder = BytesToUnicode()
 
         // Break text down into words
-        let pat = "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\\r\\n\\p{L}\\p{N}]?\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]+[\\r\\n]*|\\s*[\\r\\n]+|\\s+(?!\\S)|\\s+"
+        let pat = #"(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+"#
         let matches = try! NSRegularExpression(pattern: pat, options: []).matches(in: text, range: NSRange(text.startIndex..., in: text))
 
         var bpeTokens = [Int]()
