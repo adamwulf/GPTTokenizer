@@ -99,6 +99,7 @@ public enum GPTTokenizer {
         let byteEncoder = BytesToUnicode()
 
         // Break text down into words
+        // regex from tiktoken: https://github.com/openai/tiktoken/blob/095924e02c85617df6889698d94515f91666c7ea/tiktoken_ext/openai_public.py#L76
         let pat = #"(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+"#
         let matches = try! NSRegularExpression(pattern: pat, options: []).matches(in: text, range: NSRange(text.startIndex..., in: text))
 
