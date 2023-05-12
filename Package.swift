@@ -18,7 +18,8 @@ let package = Package(
         .target(
             name: "GPTTokenizer",
             dependencies: [],
-            exclude: []),
+            exclude: [],
+            resources: [.process("Resources")]),
         .testTarget(
             name: "GPTTokenizerTests",
             dependencies: ["GPTTokenizer"],

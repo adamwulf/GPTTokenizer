@@ -59,11 +59,11 @@ public enum GPTTokenizer {
             return
         }
 
-        let start = Date().timeIntervalSinceReferenceDate
         // Setup a cache that hold a byte/unicode match list
         let byteEncoder = BytesToUnicode()
 
-        let cl110kBase = #fileLiteral(resourceName: "cl100k_base (1).tiktoken")
+        // both GPT-3.5 and GPT-4 use cl100k_base
+        let cl110kBase = Bundle.module.url(forResource: "cl100k_base", withExtension: "tiktoken")!
         let text = try! String(contentsOfFile: cl110kBase.path, encoding: .utf8)
         let lines = text.replacingOccurrences(of: "\r", with: "").split(separator: "\n")
 
@@ -85,15 +85,6 @@ public enum GPTTokenizer {
         if Encoder.isEmpty {
             throw NSError(domain: "cl100kSettings deserialization returned NULL", code: 0, userInfo: nil)
         }
-
-        let stop = Date().timeIntervalSinceReferenceDate
-        let start2 = Date().timeIntervalSinceReferenceDate
-        let decoder = JSONDecoder()
-        let jsonBase = #fileLiteral(resourceName: "foo.json")
-        let data = try! Data(contentsOf: jsonBase)
-        Encoder = try! decoder.decode([String: Int].self, from: data)
-        let stop2 = Date().timeIntervalSinceReferenceDate
-        print("first: \(stop - start), second: \(stop2 - start2)")
     }
 
     public static func Encode(_ text: String) throws -> [Int] {
