@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Locks
 
 public enum GPTTokenizer {
+
+    private static let lock = Mutex()
 
     // cache is just to speed things up - it keeps tokens that have been found previously
     private static var BPE_CACHE = [String: String]()
@@ -88,6 +91,8 @@ public enum GPTTokenizer {
     }
 
     public static func Encode(_ text: String) throws -> [Int] {
+        lock.lock()
+        defer { lock.unlock() }
         // nothing to do here
         if text.isEmpty {
             return []

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "locks",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adamwulf/Locks.git",
+      "state" : {
+        "revision" : "8ae19d91664b8758fa422cd8c0d41d93cc037912",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
