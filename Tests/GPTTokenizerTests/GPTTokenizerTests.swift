@@ -9,13 +9,7 @@ import XCTest
 @testable import GPTTokenizer
 
 final class GPTTokenizerTests: XCTestCase {
-    func testExample() throws {
-        XCTAssertEqual(try GPTTokenizer.Encode("hello world").count, 2)
-        XCTAssertEqual(try GPTTokenizer.Encode("hello world"), [15339, 1917])
-    }
-
-    func testLarge() throws {
-        let str = """
+    static let longString = """
 <?xml version="1.0" encoding="UTF-8"?>
 <nib>
     <dependencies>
@@ -99,6 +93,18 @@ final class GPTTokenizerTests: XCTestCase {
     </resources>
 </nib>
 """
-        print("count: \(try GPTTokenizer.Encode(str).count)")
+    func testExample() throws {
+        XCTAssertEqual(try GPTTokenizer.Encode("hello world").count, 2)
+        XCTAssertEqual(try GPTTokenizer.Encode("hello world"), [15339, 1917])
+    }
+
+    func testLarge() throws {
+        XCTAssertEqual(try! GPTTokenizer.Encode(Self.longString).count, 1472)
+    }
+
+    func testPerformance() throws {
+        measure {
+            XCTAssertEqual(try! GPTTokenizer.Encode(Self.longString).count, 1472)
+        }
     }
 }
