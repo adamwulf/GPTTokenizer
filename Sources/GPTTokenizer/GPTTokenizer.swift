@@ -10,6 +10,10 @@ import Locks
 
 public enum GPTTokenizer {
 
+    enum Error: Swift.Error {
+        case invalidText(_ text: String)
+    }
+
     private static let lock = Mutex()
 
     // cache is just to speed things up - it keeps tokens that have been found previously
@@ -124,7 +128,14 @@ public enum GPTTokenizer {
         // work through each word
         for match in combined {
             // convert utf8 string bytes into unicode string
-            let token = String(Data(match.utf8).map { byteEncoder[Int($0)]! })
+            let token = String(try Data(match.utf8).map {
+                // NOTE: Somehow this is returning nil for the input byte. Instead of map({ ...! }), throw an error so it can be logged.
+                if let char = byteEncoder[Int($0)] {
+                    return char
+                } else {
+                    throw Error.invalidText(text)
+                }
+            })
 
             if token.hasPrefix("<|") && token.hasSuffix("|>") && Encoder[token] != nil {
                 bpeTokens.append(Encoder[token]!)
